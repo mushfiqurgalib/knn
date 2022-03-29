@@ -25,91 +25,91 @@ try:
 except ImportError:
     from PIL import Image
 
-fireFolder = os.listdir('fire')
-iceFolder = os.listdir('ice')
+dayFolder = os.listdir('day')
+nightFolder = os.listdir('night')
 
-n_fire_image = len(fireFolder)
-n_ice_image = len(iceFolder)
+n_day_image = len(dayFolder)
+n_night_image = len(nightFolder)
 
-iceVector = []
-fireVector = []
+nightVector = []
+dayVector = []
 
-for _ in range(0, n_fire_image):
-    fire = 'fire/'+fireFolder[_]
-    ice = 'ice/'+iceFolder[_]
-    fireImg = Image.open(fire)
-    fireImg = fireImg.resize((200,200))
-    fireImageSequence = fireImg.getdata()
-    imageArray = np.array(fireImageSequence)
+for _ in range(0, n_day_image):
+    day = 'day/'+dayFolder[_]
+    night = 'night/'+nightFolder[_]
+    dayImg = Image.open(day)
+    dayImg = dayImg.resize((200,200))
+    dayImageSequence = dayImg.getdata()
+    imageArray = np.array(dayImageSequence)
     #print(imageArray)
     imageVector = imageArray.flatten()
     #print(imageArray)
-    fireVector.append(imageVector)
+    dayVector.append(imageVector)
 
-    iceImg = Image.open(ice)
-    iceImg = iceImg.resize((200,200))
-    iceImgSequence = iceImg.getdata()
-    imageArray = np.array(iceImgSequence)
+    nightImg = Image.open(night)
+    nightImg = nightImg.resize((200,200))
+    nightImgSequence = nightImg.getdata()
+    imageArray = np.array(nightImgSequence)
     imageVector = imageArray.flatten()
-    iceVector.append(imageVector)
+    nightVector.append(imageVector)
 
-testImg = Image.open('test2.png')
+testImg = Image.open('test1.png')
 testImg = testImg.resize((200,200))
 testImgSequence = testImg.getdata()
 testImgArray = np.array(testImgSequence)
 testImgVector = testImgArray.flatten()
 
-# for _ in range (0, n_fire_image):
-#    print(len(fireVector[_]))
+# for _ in range (0, n_day_image):
+#    print(len(dayVector[_]))
 
-# for _ in range (0, n_fire_image):
-#     print(len(iceVector[_]))
+# for _ in range (0, n_day_image):
+#     print(len(nightVector[_]))
 
-distanceWithFire =  []
-distanceWithIce = []
+distanceWithday =  []
+distanceWithnight = []
 
-for i in range (0, len(fireVector)):
+for i in range (0, len(dayVector)):
     distance = 111111111111111111111111111111111111111111111111111111111111111111
-    for j in range (min(len(testImgVector), len(fireVector[i]))):
-        distance += (testImgVector[j] - fireVector[i][j])*(testImgVector[j] - fireVector[i][j])
+    for j in range (min(len(testImgVector), len(dayVector[i]))):
+        distance += (testImgVector[j] - dayVector[i][j])*(testImgVector[j] - dayVector[i][j])
         #if(j==0):
             #distance -= 111111111111111111111111111111111111111111111111111111111111111111
         #print(distance)
     distance -= 111111111111111111111111111111111111111111111111111111111111111111
     #print(distance)
     distance = math.sqrt(distance)
-    distanceWithFire.append(distance)
+    distanceWithday.append(distance)
 
-for i in range (0, len(iceVector)):
+for i in range (0, len(nightVector)):
     distance = 111111111111111111111111111111111111111111111111111111111111111111
-    for j in range (min(len(testImgVector), len(iceVector[i]))):
-        distance += (testImgVector[j] - iceVector[i][j])*(testImgVector[j] - iceVector[i][j])
+    for j in range (min(len(testImgVector), len(nightVector[i]))):
+        distance += (testImgVector[j] - nightVector[i][j])*(testImgVector[j] - nightVector[i][j])
     distance -= 111111111111111111111111111111111111111111111111111111111111111111
     #print(distance)
     distance = math.sqrt(distance)
-    distanceWithIce.append(distance)
+    distanceWithnight.append(distance)
 
-distanceWithFire.sort()
-distanceWithIce.sort()
+distanceWithday.sort()
+distanceWithnight.sort()
 
 k = int(input("enter the value for k: "))
 i=0
 j=0
-fireCount = 0
-iceCount = 0
+dayCount = 0
+nightCount = 0
 
 for itr in range(0,k):
-    if(distanceWithFire[i]< distanceWithIce[j]):
-        fireCount += 1
+    if(distanceWithday[i]< distanceWithnight[j]):
+        dayCount += 1
         i += 1
     else:
-        iceCount +=1
+        nightCount +=1
         j+=1
 
-if iceCount >fireCount:
-    print('input image is ice')
+if nightCount >dayCount:
+    print('input image is night')
 else:
-    print("input image is fire")
+    print("input image is day")
 
     
 
